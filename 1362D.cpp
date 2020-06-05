@@ -1,3 +1,4 @@
+//https://codeforces.com/contest/1362/problem/D
 #include<bits/stdc++.h>
 using namespace std;
 typedef long long int ll;
@@ -14,21 +15,21 @@ void solve(){
         adj[x].push_back(y);
         adj[y].push_back(x);
     }
-    pair<ll, ll> p[n];
-    for(ll i = 0; i < n; i++) cin >> p[i].first, p[i].second = i+1, a[i] = p[i].first;
-    sort(p, p+n);
-    ll cnt[n];
-    for(ll i = 0; i < n; i++) {
-        cnt[i] = p[i].second;
-        vis[cnt[i]] = 10;
+    pair<ll, ll> p[n+1];
+    for(ll i = 1; i <= n; i++) cin >> p[i].first, p[i].second = i;
+    for(ll i = 1; i <= n; i++) {
         set<ll> s;
-        for(auto &x: adj[cnt[i]]) if(vis[x]) s.insert(a[x-1]);
+        for(auto &x: adj[p[i].second]) {
+            if(p[i].first == p[x].first) {cout << -1 << endl; return;}
+            if(p[i].first > p[x].first) s.insert(p[x].first);
+        }
         if(s.size() + 1 != p[i].first){
             cout << -1 << endl;
             return;
         }
     }
-    for(ll i = 0; i < n; i++) cout << cnt[i] << " ";
+    sort(p+1, p+n+1);
+    for(ll i = 1; i <= n; i++) cout << p[i].second << " ";
 }
 
 int main(){
