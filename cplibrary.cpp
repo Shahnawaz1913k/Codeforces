@@ -6,7 +6,7 @@ struct{
 	ll bit[n];
 
 	void add(ll indx, ll val){
-		for(++indx; indx < n; inxd += indx&-inxd) bit[indx]	+= val;
+		for(++indx; indx < n; indx += indx&-indx) bit[indx]	+= val;
 	}
 
 	void rangeAdd(ll l, ll r, ll val){
