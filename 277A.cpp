@@ -2,33 +2,28 @@
 using namespace std;
 typedef long long int ll;
 
-set<ll> adj[200];
-ll vis[200];
-
-void dfs(ll x){
-    vis[x] = 10;
-    for(auto &i: adj[x]) if(!vis[i]) dfs(i);
-}
-
 void solve(){
-    ll n, m;
-    cin >> n >> m;
+    ll n, x;
+    cin >> n;
+    vector<ll> v;
     map<ll, ll> mp;
     for(ll i = 0; i < n; i++){
-        ll s;
-        cin >> s;
-        if(!s) { mp[s]++; continue; }
-        ll a[s];
-        for(ll j = 0; j < s; j++) cin >> a[j], mp[a[j]]++;
-        for(ll j = 0; j < s; j++) 
-            for(ll k = 0; k < s; k++){
-                adj[a[k]].insert(a[j]);
-                adj[a[j]].insert(a[k]);
-            }
+        cin >> x;
+        if(mp[x]) continue;
+        mp[x]++;
+        v.push_back(x);
     }
+    sort(v.begin(), v.end());
+    n = v.size();
     ll cnt = 0;
-    for(auto &i: mp)if(i.first && !vis[i.first]) dfs(i.first), ++cnt;
-    cout << max(cnt-1, 0ll) + mp[0] << endl;
+    for(ll i = 0; i < n; i++){
+        for(ll j = 2; j*v[i] <= v[n-1]; ++j){
+            ll indx = lower_bound(v.begin(), v.end(), j*v[i]) - v.begin();
+            cnt = max(cnt, v[indx-1]%v[i]);
+        }
+            cnt = max(cnt, v[n-1]%v[i]);
+    }
+    cout << cnt << endl;
 }
 
 int main(){
