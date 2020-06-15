@@ -14,9 +14,9 @@ void solve(){
     ll ma = 0, a = p[0].second;
     for(ll i = 0; i <= n-k; i++) {
         //cout << -p[i].first << " " << p[i].second << endl;
-        if((p[i].second < a || p[i].second >= a+k )&& -p[i].first > ma) a = p[i].second, ma = -p[i].first;
+        if((p[i].second <= a-k || p[i].second >= a+k )&& -p[i].first > ma) a = p[i].second, ma = -p[i].first;
     }
-    cout << p[0].second << " " << a << endl;
+    cout << min(a, p[0].second) << " " << max(a, p[0].second) << endl;
 }
 
 int main(){
