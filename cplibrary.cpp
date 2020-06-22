@@ -63,4 +63,7 @@ vector<ll> trial_division4(ll  n) {
     return factorization;
 }
 
-
+--------------------BIT-WISE QUESTIONS | -------------
+1. Try to solve the problem bit by bit and see how the changes occur or operations happens on each bit 
+    then move to the next bit.
+2. In maxi maxing quesions focus on the largest bit operations;
