@@ -3,20 +3,9 @@ using namespace std;
 typedef long long int ll;
 
 ll dp[2000200], mod = 1e9 + 7;
-
-ll fexpo(ll x, ll y){
-    ll ret = 1;
-    while(y){
-        if(y&1) ret = (ret*x)%mod;
-        y/=2;
-        x = (x*x)%mod;
-    }
-    return ret;
-}
-
 void pre(){
     for(ll i = 3; i < 2000200; i++){
-        dp[i] = (dp[i-2] + (2*(i/3) + 1)*4 )%mod;
+        dp[i] = (2*dp[i-2] + dp[i-1] + (i%3 == 0 ? 4:0))%mod;
     }
 }
 
