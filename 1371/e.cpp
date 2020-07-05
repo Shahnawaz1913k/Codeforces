@@ -16,7 +16,7 @@ void solve(){
                 ++cnt, ++j;
                 if(j >= n) break;
             }
-            cout << i << " " << val << " " << cnt << endl;
+            //cout << i << " " << val << " " << cnt << endl;
             val++;
             if(cnt%p == 0) {cnt = 0; break;}
             if(j < n)--cnt, --j;
