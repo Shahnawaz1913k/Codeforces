@@ -5,17 +5,16 @@ typedef long long int ll;
 void solve(){
     ll n, k;
     cin >> n >> k;
-    ll a[n], b[n];
-    for(ll i = 0; i < n; i++) cin >> a[i], b[i] = a[i];
-    for(ll i = 1; i < n; i++) b[i] += b[i-1];
-    ll indx = upper_bound(b, b+n, k) - b;
-    ll cnt = indx, pos = 0;
-    //cout << cnt << endl;
-    for(ll i = 0; i < n; i++){
-        ll indx = upper_bound(b, b+n, k + a[i]) - b;
-        //cout << i << " "<< indx << endl;
-        if(indx-1 > cnt)cnt = indx -1, pos = i+1;
+    ll a[n], sum = 0;
+    for(ll i = 0; i < n; i++) cin >> a[i], sum += a[i];
+    if(sum <= k){
+        cout << 0 << endl; return;
     }
+    sum = 0;
+    ll pos = 0, ma = 0, i = 0;
+    while(sum + a[i] <= k) sum+=a[i],++i;
+    if(i < n-1) i++;
+    for(ll x = 0; x <= i; x++) if(a[x] > ma) pos = x+1, ma = a[x];
     cout << pos << endl;
 }
 
