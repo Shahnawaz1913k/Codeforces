@@ -2,90 +2,49 @@
 using namespace std;
 typedef long long int ll;
 
-void solve(){
-    ll n, k;
-    cin >> n >> k;
-    ll a[n][n];
-    for(ll i = 0; i < n; i++)  for(ll j = 0; j < n; j++) a[i][j] = 0;
-    ll x = 0;
-    for(ll i = 0; i < n; i++){
-        if(x >= k) break;
-        for(ll j = 0; j < n; j++) {
-                 if(x >= k) break;
-                 a[j][(i+j)%n] = 1, x++;
-        }
+pair<ll, ll> mex(ll a[], ll n){
+    ll b[n];
+    for(ll i = 0; i < n; i++) b[i] = a[i];
+    sort(b, b+n);
+    ll cnt = 0, indx = -1;
+    for(ll i = 0; i < n; i++) {
+        b[i] == cnt ? ++cnt:0;
+        if(indx < 0 && a[i] != i) indx = i;
     }
-    ll xmin = 999999999999, xmax = 0, ymin = 99999999999, ymax = 0, cnt = 0;
-    for(ll i = 0; i < n; i++){
-        ll x = 0;
-        for(ll j = 0; j < n; j++) a[i][j] ? ++x:0;
-        xmin = min(x, xmin);
-        xmax = max(x, xmax);
-    }
-    for(ll i = 0; i < n; i++){
-        ll x = 0;
-        for(ll j = 0; j < n; j++) a[j][i] ? ++x:0;
-        ymin = min(x, ymin);
-        ymax = max(x, ymax);
-    }
-    cnt = (xmin - xmax)*(xmin - xmax) + (ymin - ymax)*(ymin - ymax);
-    
-    cout << xmin << " " << xmax << " | " << ymin << " " << ymax << endl;
-    cout << cnt << endl;
-    for(ll i = 0; i < n; i++){
-        for(ll j = 0; j < n; j++) cout << a[i][j];
-            cout << endl;
-    }
+    return {indx, cnt};
 }
 
-
-int main(){
-  ios_base::sync_with_stdio(false);
-  cin.tie(0);
-  int t;cin>>t;while(t--)
-  solve();
-  return 0;
-}
-#include<bits/stdc++.h>
-using namespace std;
-typedef long long int ll;
-
 void solve(){
-    ll n, k;
-    cin >> n >> k;
-    ll a[n][n];
-    for(ll i = 0; i < n; i++)  for(ll j = 0; j < n; j++) a[i][j] = 0;
-    ll x = 0;
+    ll n;
+    cin >> n;
+    ll a[n];
+    for(ll i = 0; i < n; i++) cin >> a[i];
+    vector<ll> v;
     for(ll i = 0; i < n; i++){
-        for(ll j = i; j < n; j++) {
-            //cout << j << " " << j-i << " " << x <<  endl;
-                 if(x >= k) break;
-                 a[j][j-i] = 1, x++;
-                 if(x >= k) break;
-                 if( i != 0)a[j-i][j] = 1, x++;
+        pair<ll, ll> m = mex(a, n);
+        if(m.first == -1)  break;
+        if(m.second < n) if(a[m.second] != m.second){
+            v.push_back(m.second+1);
+            a[m.second] = m.second;
+            continue;
         }
-        if(x >= k) break;
-    }
-    ll xmin = 999999999999, xmax = 0, ymin = 99999999999, ymax = 0, cnt = 0;
-    for(ll i = 0; i < n; i++){
-        ll x = 0;
-        for(ll j = 0; j < n; j++) a[i][j] ? ++x:0;
-        xmin = min(x, xmin);
-        xmax = max(x, xmax);
+        v.push_back(m.first+1);
+        a[m.first] = m.second;
     }
     for(ll i = 0; i < n; i++){
-        ll x = 0;
-        for(ll j = 0; j < n; j++) a[j][i] ? ++x:0;
-        ymin = min(x, ymin);
-        ymax = max(x, ymax);
+        pair<ll, ll> m = mex(a, n);
+        if(m.first == -1)  break;
+        if(m.second < n) if(a[m.second] != m.second){
+            v.push_back(m.second+1);
+            a[m.second] = m.second;
+            continue;
+        }
+        v.push_back(m.first+1);
+        a[m.first] = m.second;
     }
-    cnt = (xmin - xmax)*(xmin - xmax) + (ymin - ymax)*(ymin - ymax);
-    cout << xmin << " " << xmax << " | " << ymin << " " << ymax << endl;
-    cout << cnt << endl;
-    for(ll i = 0; i < n; i++){
-        for(ll j = 0; j < n; j++) cout << a[i][j];
-            cout << endl;
-    }
+    cout << v.size() <<endl;
+    for(auto &i: v) cout << i << " ";
+    cout << endl;
 }
 
 
