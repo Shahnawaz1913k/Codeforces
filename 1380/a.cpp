@@ -3,10 +3,25 @@ using namespace std;
 typedef long long int ll;
 
 void solve(){
-    ll a[3];
-    for(ll i = 0; i < 3; i++)cin >> a[i];
-    sort(a, a+3);
-    cout << (a[2] > a[0] + a[1] + 1 ? "no":"yes") << endl;
+    ll n;
+    cin >> n;
+    ll a[n], indx;
+    for(ll i = 0; i < n; i++) cin >> a[i];
+    for(ll i = 0; i < n; i++) {
+        ll flag = 0, x = a[i];
+        for(ll j = i+1; j < n; j++) {
+            if(flag == 0){
+                if(a[i] < a[j]) flag = 1, x = a[j], indx = j;
+            } else if(flag == 1){
+                if(x > a[j]) {
+                    cout << "yes" << endl;
+                    cout << i+1 << " " << indx+1 << " " << j+1 << endl;
+                    return;
+                }
+            }
+        }
+    }
+    cout << "no" << endl;
 }
 
 
