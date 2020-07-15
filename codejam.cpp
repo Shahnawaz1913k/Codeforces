@@ -2,34 +2,33 @@
 using namespace std;
 typedef long long int ll;
 
-void solve(ll t){
-    ll n, q;
-    cin >> n >> q;
-    ll a[n], cnt = 0;
-    for(ll i = 1; i < n; i++) cin >> a[i];
-    cout << "Case #"<<t<<": ";
-    while(q--){
-        ll s, k;
-        cin >> s >> k;
-        ll l = s-1, r = s;
-        ll pic = s;
-        if(s == 1) pic = k;
-        if(s == n) pic = n - k + 1;
-        if(s == 1 || s == n){
-            cout << pic << " ";
-            continue;
-        }
-        for(ll i = 1; i < k; i++){
-            if(l < 1) r++, pic = r;
-            else if(r >= n) l--, pic = l+1;
-            else {
-                if(a[l] < a[r]) pic = l, l--;
-                else ++r, pic = r;
-            }
-        }
-            cout << pic << " ";
+vector<ll> adj[100010];
+ll vis[100010], cnta[100010], cntb[100010];
+
+void dfs(ll x, ll a, ll b, ll h){
+    vis[x] = h;
+    //cout << "visiting " << x << " " << h << endl;
+    cnta[x] = 1, cntb[x] = 1;
+    for(auto &i: adj[x]) if(!vis[i]){
+        dfs(i, a, b, h+1);
     }
-    cout << endl;
+    if(vis[x] > a) cnta[vis[x]-a] += cnta[x];
+    if(vis[x] > b) cntb[vis[x]-b] += cntb[x];
+}
+
+void solve(ll t){
+    ll n, a, b, cnt = 0;
+    cin >> n >> a >> b;
+    ll arr[n];
+    for(ll i = 1; i <= n; i++) adj[i].clear(), vis[i] = 0, cnta[i] = 0, cntb[i] = 0;
+    for(ll i = 1; i < n; i++) cin >> arr[i], adj[arr[i]].push_back(i+1);
+    dfs(1, a, b, 1);
+    for(ll i = 1; i <= n; i++) {
+        cnt += (n*(cnta[i] + cntb[i]) - cnta[i]*cntb[i]);
+        //cout << i << " | " << cnta[i] << " " << cntb[i] << endl;
+    }
+    double x = cnt*1.0/(n*n);
+    cout << setprecision(14) << fixed << x << endl;
 }
 
 int main(){
