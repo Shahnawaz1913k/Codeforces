@@ -3,19 +3,17 @@ using namespace std;
 typedef long long int ll;
 
 void solve(){
-    ll n, k;
-    cin >> n >> k;
-    ll a[n], sum = 0;
-    for(ll i = 0; i < n; i++) cin >> a[i], sum += a[i];
-    if(sum <= k){
-        cout << 0 << endl; return;
-    }
-    sum = 0;
-    ll pos = 0, ma = 0, i = 0;
-    while(sum + a[i] <= k) sum+=a[i],++i;
-    if(i < n-1) i++;
-    for(ll x = 0; x <= i; x++) if(a[x] > ma) pos = x+1, ma = a[x];
-    cout << pos << endl;
+    string s;
+    cin >> s;
+    ll n = s.length();
+    map<char, ll> mp;
+    for(ll i = 0; i < n; i++) mp[s[i]]++;
+    char x;
+    if(mp['R'] >= max(mp['P'], mp['S'])) x = 'P';
+    if(mp['P'] >= max(mp['R'], mp['S'])) x = 'S';
+    if(mp['S'] >= max(mp['P'], mp['R'])) x = 'R';
+    for(ll i = 0; i < n; i++) cout << x;
+    cout << endl;
 }
 
 
