@@ -9,7 +9,6 @@ ll cnt(string s, char c, ll n){
     for(ll i = 0; i < n/2; i++) x += (s[i]!=c), sx += s[i];
     for(ll i = n/2; i < n; i++) y += (s[i]!=c), sy += s[i];
     ll res = min(x + cnt(sy, (char)(c+1), n/2), y + cnt(sx, (char)(c+1), n/2));
-    //cout << n << " "<< s << " " << res << endl;
     return res;
 }
 
