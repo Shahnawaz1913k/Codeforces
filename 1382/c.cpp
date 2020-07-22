@@ -12,7 +12,7 @@ void solve(){
     ll f = 0, ba = n-1;
     for(ll i = n-1; i >= 0; --i) {
             ll val = (cnt%2 == 0 ? f++: ba--);
-            if((b[n-1] == a[val] && cnt%2 == 0) || (cnt%2 && b[n-1] == a[val])) v.push_back(1);
+            if((b[i] == a[val] && cnt%2 == 0) || (cnt%2 && b[i] != a[val])) v.push_back(1);
             v.push_back(i+1);
         ++cnt;
     }
