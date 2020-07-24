@@ -2,53 +2,37 @@
 using namespace std;
 typedef long long int ll;
 
-ll n;
-string s, t;
-
-ll check(ll x){
-    ll lcnt = 0;
-    ll cnt = 0, os = 0;
-    for(ll i = 0; i < s.length(); i++){
-        ++cnt;
-        cout << i << s[i]<< " " << cnt << " " << os << endl;
-        if(s[i] == '-' || s[i] == ' ') {
-            if(cnt <= x) os = cnt;
-            else {
-                lcnt++;
-                cnt -=os;
-                os = cnt;
-                if(cnt > x) {
-                    cout << "ins " << i << " " << cnt << endl;
-                    return 0;
-                }
-            }
-        }
-    }
-    cout << cnt - os << "  ehaha " << lcnt << endl;
-    return (cnt - os > x || lcnt > n ? 0:1);
-}
-
 void solve(){
+    ll n;
     cin >> n;
-    getline(cin, t);
-    getline(cin, s);
-    /*
-    ll l = 0, h = 1e7, mid, val;
-    while(l <= h){
-        mid = (l+h)/2;
-        if(check(mid)) h = mid - 1, val = mid;
-        else l = mid + 1;
+    n*=2;
+    ll a[n];
+    for(ll i = 0; i < n; i++) cin >> a[i];
+    ll l = 0, r = n-1;
+    vector<ll> len;
+    while(l<=r){
+        ll ma = -1, indx = -1;
+        for(ll i = l; i <= r; ++i) if(a[i] > ma) ma = a[i], indx = i;
+        len.push_back(r-indx+1);
+        r = indx-1;
     }
-    cout << val << endl;
-    */
-    check(8);
+    ll sum = n/2, m = len.size();
+    bool sub[m+10][sum];
+    for(ll i = 0; i <= m; i++) sub[i][0] = true;
+    for(ll i = 1; i <= sum; i++) sub[0][i] = false;
+    for(ll i = 1; i <= m; ++i)
+        for(ll j = 1; j <= sum; ++j){
+            if(len[i-1] <= j) sub[i][j] = sub[i-1][j] || sub[i-1][j-len[i-1]];
+            else sub[i][j] = sub[i-1][j];
+        }
+    cout << (sub[m][sum] ? "yes":"no") << endl;
 }
 
 
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(0);
-  //int t;cin>>t;while(t--)
+  int t;cin>>t;while(t--)
   solve();
   return 0;
 }
