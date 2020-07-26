@@ -3,26 +3,13 @@ using namespace std;
 typedef long long int ll;
 
 void solve(){
-    ll n, m;
-    cin >> n >> m;
-    ll a[n][m];
-    for(ll i = 0; i < n; i++) 
-        for(ll j = 0; j < m; j++) cin >> a[i][j];
-    ll rcnt = 0, ccnt = 0;
-    for(ll i = 0; i < n; i++) {
-        ll val = 10;
-        for(ll j = 0; j < m; j++) if(a[i][j] == 1) val = 0;
-        //cout << i << "hred " << val << endl;
-        val ? ++rcnt:0;
-    }
-    for(ll i = 0; i < m; i++) {
-        ll val = 10;
-        for(ll j = 0; j < n; j++) if(a[j][i] == 1) val = 0;
-        //cout << i << "hred " << val << endl;
-        val ? ++ccnt:0;
-    }
-    //cout << rcnt << " " << ccnt << endl;
-    cout << (min(rcnt, ccnt)%2 == 0 ? "Vivek":"Ashish") << endl;
+    ll n, k;
+    cin >> n;
+    ll g = 0, ma = 0;
+    ll a[n];
+    for(ll i = 0; i < n; i++) cin >> a[i], g = __gcd(g, a[i]), ma = max(ma, a[i]);
+    cin >> k;
+    cout << (k*g > ma ? -1:ma - (k-1)*g) << endl;
 }
 
 int main(){
