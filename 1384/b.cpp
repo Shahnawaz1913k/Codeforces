@@ -12,7 +12,7 @@ void solve(){
 
     ll pos = k;
     for(ll i = 0; i < n; i++) {
-        //cout << i << " " << pos << " " << a[i] << " " << pos%(2*k) << endl;
+        //cout << i << " " << pos << " " << a[i] << " " << t[pos%(2*k)] << endl;
         if(a[i] > l){
             cout << "no" << endl;
             return;
@@ -20,7 +20,9 @@ void solve(){
         if(a[i] + k <= l) pos = k;
         else {
             if(pos%(2*k) >= k) { 
-                while(t[pos%(2*k)] + a[i] > l) pos++;
+                //cout << "here " << pos << endl;
+                if(t[pos%(2*k)] + a[i] <= l) pos++;
+                else while(t[pos%(2*k)] + a[i] > l) pos++;
             } else if(t[pos%(2*k)+1] + a[i] > l){
                cout << "no"  << endl;
                return;
