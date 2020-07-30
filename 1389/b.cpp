@@ -13,7 +13,6 @@ void solve(){
     for(ll i = 0; i <= z; i++){
         ll cnt = pre[k-2*i], x = a[0] + a[1];
         for(ll j = 1; j <= k- 2*i; ++j) x = max(x, a[j] + a[j+1]);
-        //cout << i << " " << cnt + i*x << " " << x << " indx : " << k - 2*i << endl;
         ma = max(ma, cnt + i*x);
     }
     cout << ma << endl;
