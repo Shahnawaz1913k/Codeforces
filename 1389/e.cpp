@@ -3,21 +3,13 @@ using namespace std;
 typedef long long int ll;
 
 void solve(){
-    ll n, m;
-    cin >> n >> m;
-    pair<ll, ll> a[n+1];
-    for(ll i = 1; i <= n; i++) a[i] = {0, i};
-    while(m--){
-        ll x, y;
-        cin >> x >> y;
-        a[y].first--;
-    }
-    sort(a + 1, a+n+1);
-    cout << 4*n/7 << endl;
-    for(ll i = 1; i <= 4*n/7; i++) cout << a[i].second << " ";
-    cout << endl;
+    ll m, d, w, cnt = 0;
+    cin >> m >> d >> w;
+    ll x = w/__gcd(w, d-1), y = min(m, d);
+    ll n = ceil(y*1.0/x); --n;
+    cnt  = y*n - (x*n*(n+1))/2;
+    cout << cnt << endl;
 }
-
 
 int main(){
   ios_base::sync_with_stdio(false);
