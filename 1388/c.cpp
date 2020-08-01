@@ -2,14 +2,22 @@
 using namespace std;
 typedef long long int ll;
 
-vector<ll> adj[200020], d[200020];
-ll vis[200020], dep[200020];
+vector<ll> adj[200020];
+ll h[200020];
+ll vis[200020], p[200020];
+
+void dfs(ll x, ll h){
+    vis[x] = h;
+    for(auto &i: adj[x]) if(!vis[i]){
+        dfs(i, h+1);
+        p[x] += p[i];
+    }
+}
 
 void solve(){
     ll n, m;
     cin >> n >> m;
-    for(ll i = 0; i <= n; i++) adj[i].clear(), vis[i] = 0, dep[i] = 0, d[i].clear();
-    ll p[n+1], h[n+1];
+    for(ll i = 0; i <= n; i++) adj[i].clear(), vis[i] = 0;
     for(ll i = 1; i <= n; i++) cin >> p[i];
     for(ll i = 1; i <= n; i++) cin >> h[i];
     for(ll i = 0; i < n-1; i++){
@@ -18,31 +26,15 @@ void solve(){
         adj[x].push_back(y);
         adj[y].push_back(x);
     }
-    queue<ll> q;
-    q.push(1);
-    while(!q.empty()){
-        ll x = q.front();
-        vis[x] = 10;
-        q.pop();
-        for(auto &i: adj[x]) if(!vis[i]){
-            dep[i] = dep[x] + 1;
-            d[dep[i]].push_back(i);
-            q.push(i);
+    dfs(1, 1);
+    for(ll i = 1; i <= n; i++){
+        ll cnt = 0, g = (p[i] + h[i])/2;
+        for(auto &k: adj[i]) if(vis[k] > vis[i]) cnt += (p[k] + h[k])/2;
+        if(cnt > g || (p[i] + h[i])%2 || !(0 <= g && g <= p[i])){
+            cout << "no" << endl;
+            return;
         }
     }
-    ll ma = 0;
-    for(ll i = 0; i <= n; i++) ma = max(ma, dep[i]);
-    for(ll i = ma; i >= 0; --i)
-        for(auto &k: d[i]){
-            ll b = 0, cnt = 0;
-            for(auto &c: adj[k]) if(dep[c] > dep[k]) cnt += (p[c] - h[c])/2, b+=p[c];
-            p[k] += b;
-            ll u = (p[k] - h[k])/2;
-            if((p[k]-h[k])%2  || (u > 2*cnt) || (abs(h[k]) > p[k])){
-                cout << "no" << endl;
-                return;
-            }
-        }
     cout << "yes" << endl;
 }
 
