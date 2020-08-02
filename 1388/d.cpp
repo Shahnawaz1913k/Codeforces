@@ -2,48 +2,41 @@
 using namespace std;
 typedef long long int ll;
 
-ll n;
-string s, t;
+vector<ll> adj[200020], v;
+ll vis[200020], cnt = 0;
 
-ll check(ll x){
-    ll lcnt = 0;
-    ll cnt = 0, os = 0;
-    for(ll i = 0; i < s.length(); i++){
-        ++cnt;
-        cout << i << s[i]<< " " << cnt << " " << os << endl;
-        if(s[i] == '-' || s[i] == ' ') {
-            if(cnt <= x) os = cnt;
-            else {
-                lcnt++;
-                cnt -=os;
-                os = cnt;
-                if(cnt > x) {
-                    cout << "ins " << i << " " << cnt << endl;
-                    return 0;
-                }
-            }
-        }
-    }
-    cout << cnt - os << "  ehaha " << lcnt << endl;
-    return (cnt - os > x || lcnt > n ? 0:1);
+void dfs(ll x){
+    vis[x] = 10;
+    for(auto &i: adj[x]) if(!vis[i]) dfs(i);
+    v.push_back(x);
 }
 
 void solve(){
+    ll n;
     cin >> n;
-    getline(cin, t);
-    getline(cin, s);
-    /*
-    ll l = 0, h = 1e7, mid, val;
-    while(l <= h){
-        mid = (l+h)/2;
-        if(check(mid)) h = mid - 1, val = mid;
-        else l = mid + 1;
+    ll a[n+1], c[n+1];
+    for(ll i = 1; i <= n; ++i) cin >> a[i];
+    for(ll i = 1; i <= n; ++i) {
+        cin >> c[i];
+        if(c[i] > 0) adj[i].push_back(c[i]);
     }
-    cout << val << endl;
-    */
-    check(8);
+    for(ll i = 1; i <= n; ++i) {
+        if(vis[i]) continue;
+        dfs(i);
+    }
+    //cout << "hey" << endl;
+    reverse(v.begin(), v.end());
+    vector<ll> rv;
+    for(auto &i: v) if(a[i] >= 0) {
+            rv.push_back(i);
+            cnt += a[i];
+            if(c[i] > 0) a[c[i]] += a[i];
+    }
+    reverse(v.begin(), v.end());
+    for(auto &i: v) if(a[i] < 0) cnt += a[i], rv.push_back(i);
+    cout << cnt << endl;
+    for(auto &i: rv) cout << i << " ";
 }
-
 
 int main(){
   ios_base::sync_with_stdio(false);
