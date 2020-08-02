@@ -2,40 +2,29 @@
 using namespace std;
 typedef long long int ll;
 
+ll val(ll li, ll k, ll n){
+    ll cnt = 0;
+    if(li*n >= k) cnt += k;
+    else {
+            k -= li*n;
+            cnt += (li*n + 2*k);
+    }
+    return cnt;
+}
+
 void solve(){
     ll n, k, l1, r1, l2, r2, cnt = 0;
     cin >> n >> k >> l1 >> r1 >> l2 >> r2;
-    if(l1 > l2) swap(l1, l2), swap(r1, r2);
-    cout << l1 << " - " << r1 << endl;
-    cout << l2 << " - " << r2 << endl;
     if(r1 >= l2){
-        ll in = abs(max(l1, l2) - min(r1, r2)) + 1;
-        ll li = max(r1, r2) - min(l1, l2) + 1 - in;
-        if(in*n < k) {
-            k -=in*n;
-            if(li*n >= k) cnt += k;
-            else {
-                k -= li*n;
-                cnt += (li*n + 2*k);
-            }
-        }
+        ll in = abs(max(l1, l2) - min(r1, r2));
+        ll li = max(r1, r2) - min(l1, l2) - in;
+        if(k > n*in) cout << val(li, k - n*in, n) << endl;
+        else cout << 0 << endl;
     } else {
-        ll d = l2 - r1, in = (r1 - l1) + (r2 - l2) + 2;
-        ll c = d + in - 1;
-        cout << in << " " << d << " " << c << endl;
-        if(k <= in) cnt += d+k, cout << "fdas3" << endl;
-        else {
-            if(c > 2*in) cnt += (c + 2*(k-in)), cout << "fdas4" << endl;
-            else {
-                cnt += min(n, k/in)*c;
-                k -= min(n, k/in)*in;
-                if(n <= k/in) cnt += k*2;
-                else cnt += min(2*k, d+k);
-                cout << "fdas5" << endl;
-            }
-        }
+        ll d = l2 - r1, cnt = 9999999999999999;
+        for(ll i = 1; i <= n; ++i) cnt = min(cnt, val(max(r2, r1) - min(l1, l2), k, i) + i*d);
+        cout << cnt <<endl;
     }
-    cout << cnt <<endl;
 }
 
 int main(){
