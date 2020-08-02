@@ -2,53 +2,46 @@
 using namespace std;
 typedef long long int ll;
 
-ll n;
-string s, t;
-
-ll check(ll x){
-    ll lcnt = 0;
-    ll cnt = 0, os = 0;
-    for(ll i = 0; i < s.length(); i++){
-        ++cnt;
-        cout << i << s[i]<< " " << cnt << " " << os << endl;
-        if(s[i] == '-' || s[i] == ' ') {
-            if(cnt <= x) os = cnt;
+void solve(){
+    ll n, k, l1, r1, l2, r2, cnt = 0;
+    cin >> n >> k >> l1 >> r1 >> l2 >> r2;
+    if(l1 > l2) swap(l1, l2), swap(r1, r2);
+    cout << l1 << " - " << r1 << endl;
+    cout << l2 << " - " << r2 << endl;
+    if(r1 >= l2){
+        ll in = abs(max(l1, l2) - min(r1, r2)) + 1;
+        ll li = max(r1, r2) - min(l1, l2) + 1 - in;
+        if(in*n < k) {
+            k -=in*n;
+            if(li*n >= k) cnt += k;
             else {
-                lcnt++;
-                cnt -=os;
-                os = cnt;
-                if(cnt > x) {
-                    cout << "ins " << i << " " << cnt << endl;
-                    return 0;
-                }
+                k -= li*n;
+                cnt += (li*n + 2*k);
+            }
+        }
+    } else {
+        ll d = l2 - r1, in = (r1 - l1) + (r2 - l2) + 2;
+        ll c = d + in - 1;
+        cout << in << " " << d << " " << c << endl;
+        if(k <= in) cnt += d+k, cout << "fdas3" << endl;
+        else {
+            if(c > 2*in) cnt += (c + 2*(k-in)), cout << "fdas4" << endl;
+            else {
+                cnt += min(n, k/in)*c;
+                k -= min(n, k/in)*in;
+                if(n <= k/in) cnt += k*2;
+                else cnt += min(2*k, d+k);
+                cout << "fdas5" << endl;
             }
         }
     }
-    cout << cnt - os << "  ehaha " << lcnt << endl;
-    return (cnt - os > x || lcnt > n ? 0:1);
+    cout << cnt <<endl;
 }
-
-void solve(){
-    cin >> n;
-    getline(cin, t);
-    getline(cin, s);
-    /*
-    ll l = 0, h = 1e7, mid, val;
-    while(l <= h){
-        mid = (l+h)/2;
-        if(check(mid)) h = mid - 1, val = mid;
-        else l = mid + 1;
-    }
-    cout << val << endl;
-    */
-    check(8);
-}
-
 
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(0);
-  //int t;cin>>t;while(t--)
+  int t;cin>>t;while(t--)
   solve();
   return 0;
 }
