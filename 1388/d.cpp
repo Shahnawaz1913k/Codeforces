@@ -24,7 +24,6 @@ void solve(){
         if(vis[i]) continue;
         dfs(i);
     }
-    //cout << "hey" << endl;
     reverse(v.begin(), v.end());
     vector<ll> rv;
     for(auto &i: v) if(a[i] >= 0) {
