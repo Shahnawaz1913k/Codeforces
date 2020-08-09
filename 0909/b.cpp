@@ -19,18 +19,19 @@ typedef long long int ll;
 // }
 
 void solve(){
-	int  n, k;
-	cin >> n >> k;
-	int a[n];
-	multiset<int> ms;
-	for(int i = 0; i < n; ++i) cin >> a[i], ms.insert(a[i]);
-	while(k--){
-		int x = *ms.rbegin();
-		ms.erase(ms.find(x));
-		ms.insert(floor(x/2));
-	}
+	string s = "223";
 	int cnt = 0;
-	for(auto &i: ms) cnt += i;
+	// for(ll i = 0; i < 3; i++)
+	// for(ll j = 0; j < 3; j++)
+	// for(ll k = 0; k < 3; k++){
+	// 	string x = c[i]+c[j]+c[k];
+	// 	cout << x << endl;
+	// 	// if(stoi(x)%7 == 0)++cnt;
+	// }
+	do{
+		cout << s << endl;
+		if(stoi(s)%7==0) ++cnt;
+	} while(next_permutation(s.begin(), s.end()));
 	cout << cnt << endl;
 }
 
