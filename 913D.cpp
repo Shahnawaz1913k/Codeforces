@@ -2,40 +2,32 @@
 using namespace std;
 typedef long long int ll;
 
-vector<pair<ll, pair<ll, ll> > > p;
+struct node{
+    int x, t, id;
+} a[200020];
 
-int check(ll n, ll k, ll t){
-    ll cnt = 0, ct = 0;
-    for(ll i = 0; i < n; ++i)if(p[i].second.first >= k){
-        ct += p[i].first;
-        ++cnt;
-        if(cnt == k) break;
-    }
-    return (ct <= t && cnt == k);
-}
+bool cmp(node x, node y) {return x.t < y.t;};
 
 void solve(){
     ll n, t;
     cin >> n >> t;
-    ll x, y;
-    for(ll i = 0; i < n; ++i) cin >> x >> y, p.push_back({y, {x, i+1}});
-    sort(p.begin(), p.end());
-    ll l = -1, h = n+1, mid, res = n+100;
-    while(l <= h){
-        mid = (l+h)/2;
-        // cout << mid << " " << check(n, mid, t) << endl;
-        if(check(n, mid, t)) l = mid+1, res = mid;
-        else h = mid-1;
+    for(ll i = 1; i <= n; ++i) cin >> a[i].x >> a[i].t, a[i].id = i;
+    sort(a+1, a+n+1, cmp);
+    ll l = 1, r = n, mid = 0, an = 0, Ans[200020], ans[200020], no;
+    while(l <= r){
+        mid = (l+r)>>1;
+        ans[0] = 0, no = 0;
+        for(ll i = 1; i <= n; ++i) if(a[i].x >= mid && no+a[i].t <= t){
+            no += a[i].t, ans[++ans[0]] = a[i].id;
+        }
+        if(ans[0] >= mid){
+            l = mid+1, an = mid;
+            Ans[0] = mid;
+            for(ll i = 1; i <= mid; ++i) Ans[i] = ans[i];
+        } else r = mid-1;
     }
-    ll cnt = 0, ct = 0;
-    vector<ll> v;
-    for(ll i = 0; i < n; ++i)if(p[i].second.first >= res){
-        v.push_back(p[i].second.second);
-        ++cnt;
-        if(cnt == res) break;
-    }
-    cout << v.size() << endl << v.size() << endl;
-    for(auto &i: v) cout << i << " ";
+    cout << an << endl  << Ans[0] << endl;
+    for(ll i = 1; i <= Ans[0]; ++i) cout << Ans[i] << " ";
 }
  
 int main(){
