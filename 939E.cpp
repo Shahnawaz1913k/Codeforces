@@ -6,23 +6,25 @@ vector<ll> v, pre;
 double val = 0, ma = 0;
 
 double f(ll x){
-    double xx = (pre[x] + v[v.size()-1])*1.0/(x+1);
-    if(xx > ma) return xx;
-    return 0.0;
+    double cnt = 1.0*v[v.size()-1] - (v[v.size() - 1] + pre[x])*1.0/(x+1);
+    return cnt;
 }
 
 void check(){
-    ma = 0;
-    if(v.size() == 2){
-        cout << ma << endl; return;
+    ll n = pre.size();
+    if(n == 2) {cout << 0 << endl; return;}
+    double val = 0;
+    if(val > ma) ma = val;
+    ll l = 1, h = v.size()-1, m1 = 0, m2 = 0;
+    while(h - l > 3){
+        m1 = l + (h-l)/3;
+        m2 = (h+m1)/2;
+        if(f(m1) > f(m2)) h = m2;
+        else l = m1;
     }
-    ll l = 1, h = v.size()-2, mid = 0, cnt = 0;
-    while(l<=h){
-        mid = (l+h)/2;
-        if(f(mid)) l = mid+1, cnt = mid;
-        else r = mid-1;
-    }
-    cout << setprecision(10) << fixed << f(cnt) << endl;
+        m1 = l + (h-l)/3;
+        m2 = (h+m1)/2;
+    cout << setprecision(10) << fixed << max({f(l), f(h), f(m1), f(m2)}) << endl;
 }
 
 void solve(){
@@ -33,8 +35,13 @@ void solve(){
         ll x, y;
         cin >> x;
         if(x == 2) check();
-        else cin >> y, pre.push_back(pre[cnt] + y), v.push_back(y), ++cnt;
+        else {
+            cin >> y;
+            pre.push_back(pre[cnt++] + y);
+            v.push_back(y); 
+        }
     }
+    for(ll i = 0; i < cnt; i++) cout << i << " " << f(i) << endl;
 }
  
 int main(){
@@ -44,3 +51,17 @@ int main(){
   solve();
   return 0;
 }
+/*
+11
+1 1
+1 2
+1 3
+1 4
+1 5
+1 6
+1 7
+1 8
+1 9
+1 10
+2
+*/
