@@ -3,29 +3,49 @@ using namespace std;
 typedef long long int ll;
 
 void solve(){
-    ll n;
-    cin >> n;
-    string a, b;
-    cin >> a >> b;
-    for(ll i = 0; i < n; i++) if(a[i] > b[i]){
-        cout << -1 << endl;
-        return;
-    }
-    set<ll> s[30];
-    for(ll i = 0; i < n; i++) if(a[i] != b[i]){
-        s[a[i] - 'a'].insert(b[i] - 'a');
-    }
-    ll cnt = 0;
-    for(ll i = 0; i < 30; i++) if(s[i].size()){
-        ++cnt;
-        auto x = *s[i].begin();
-        //cout << i << " her" << endl;
-        for(auto &i: s[i]) {
-            //cout << " sdfa "<< i << endl;
-            if(i != x) s[x].insert(i);
-        }
-    }
-    cout << cnt << endl;
+   ios_base::sync_with_stdio(0), cin.tie(0);
+
+	int test;
+	cin >> test;
+	while (test--)
+	{
+	    int n;
+		string a, b;
+		cin >> n >> a >> b;
+
+		bool bad = false;
+		vector<vector<int>> adj(Alp);
+		for (int i = 0; i < n; ++i)
+			if (a[i] != b[i])
+			{
+				if (a[i] > b[i])
+				{
+					bad = true;
+					cout << "-1\n";
+					break;
+				}
+
+				adj[a[i]-'a'].push_back(b[i]-'a');
+				adj[b[i]-'a'].push_back(a[i]-'a');
+			}
+
+		if (bad) continue;
+
+		vector<bool> mark(Alp);
+		function<void(int)> dfs = [&](int u)
+		{
+			mark[u] = true;
+			for (auto v : adj[u])
+				if (!mark[v])
+					dfs(v);
+		};
+
+		int ans = Alp;
+		for (int i = 0; i < Alp; ++i)
+			if (!mark[i])
+				dfs(i), --ans;
+		cout << ans << "\n";
+	}
 }
 
 int main(){
