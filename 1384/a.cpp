@@ -3,19 +3,20 @@ using namespace std;
 typedef long long int ll;
 
 void solve(){
-    ll n;
+    
+    int n;
     cin >> n;
-    ll a[n];
-    for(ll i =0; i < n; i++) cin >> a[i];
-    string s[n+2], x;
-    for(ll i = 0; i < 200; i++) x+='a';
-    s[0] = x;
-    for(ll i =0; i < n; i++) {
-        s[i+1] = s[i];
-        if(s[i+1][a[i]] == 'z') s[i+1][a[i]] = 'a';
-        else s[i+1][a[i]] = char(s[i+1][a[i]] + 1);
+
+    string s(200, 'a');
+    cout << s << endl;
+
+    for (int i = 0; i < n; ++i)
+    {
+        int u;
+        cin >> u;
+        s[u] = s[u] == 'a' ? 'b' : 'a';
+        cout << s << endl;
     }
-    for(ll i =0; i <= n; i++) cout << s[i] << endl;
 }
 
 
