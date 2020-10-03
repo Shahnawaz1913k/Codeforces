@@ -3,9 +3,9 @@ using namespace std;
 typedef long long int ll;
 
 void solve(){
-    ll n, k;
-    cin >> n >> k;
-    if(k > n*n){
+    ll num, k;
+    cin >> num>> k;
+    if(k > num*num){
         cout << -1 << endl;
         return;
     }
