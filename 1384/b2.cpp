@@ -2,7 +2,7 @@
 using namespace std;
 typedef long long int ll;
 
-void solve(){
+/*void solve(){
     ll n, k, l;
     cin >> n >> k >> l;
     ll a[n];
@@ -27,12 +27,44 @@ void solve(){
         }
     }
     cout << "yes" << endl;
-}
+}*/
 
 int main(){
-  ios_base::sync_with_stdio(false);
-  cin.tie(0);
-  int t;cin>>t;while(t--)
-  solve();
-  return 0;
+  ios_base::sync_with_stdio(0), cin.tie(0);
+
+	int test;
+	cin >> test;
+	while (test--)
+	{
+		int n, k, l;
+		cin >> n >> k >> l;
+		vector<int> d(n+1), safe = { 0 };
+		for (int i = 1; i <= n; ++i)
+		{
+			cin >> d[i];
+			if (d[i] + k <= l)
+				safe.push_back(i);
+		}
+
+		safe.push_back(n+1);
+		bool ok = true;
+		for (size_t i = 1; i < safe.size() && ok; ++i)
+		{
+			int tide = k; bool down = true;
+			for (int j = safe[i-1] + 1; j < safe[i]; ++j)
+			{
+				tide += down ? -1 : +1;
+
+				if (down) tide -= max(0, d[j] + tide - l);
+				if (tide < 0 || d[j] + tide > l) { ok = false; break; }
+
+				if (tide == 0) down = false;
+			}
+		}
+
+		if (ok) cout << "Yes\n";
+		else cout << "No\n";
+	}
+
+	return 0;
 }
